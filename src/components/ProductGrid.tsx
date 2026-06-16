@@ -5,10 +5,18 @@ import type { TranslationKey } from "../i18n/translations";
 type ProductGridProps = {
   onAddToCart: (product: Product) => void;
   onNavigate: (page: "home" | "shop" | "product" | "checkout", param?: any) => void;
+  wishlist: number[];
+  onToggleFavorite: (productId: number) => void;
   t: (key: TranslationKey) => string;
 };
 
-export function ProductGrid({ onAddToCart, onNavigate, t }: ProductGridProps) {
+export function ProductGrid({
+  onAddToCart,
+  onNavigate,
+  wishlist,
+  onToggleFavorite,
+  t,
+}: ProductGridProps) {
   return (
     <section className="section-block products-section" id="products">
       <div className="section-heading">
@@ -26,26 +34,33 @@ export function ProductGrid({ onAddToCart, onNavigate, t }: ProductGridProps) {
       </div>
 
       <div className="product-grid">
-        {products.map((product) => (
-          <article
-            className="product-card"
-            key={product.id}
-            onClick={(e) => {
-              const target = e.target as HTMLElement;
-              if (target.closest(".quick-add") || target.closest(".floating-heart")) {
-                return;
-              }
-              onNavigate("product", product.id);
-            }}
-            style={{ cursor: "pointer" }}
-          >
-            <div className="product-image">
-              <img src={product.image} alt={product.name} />
-              <span className="product-badge">{product.badge}</span>
-              <button className="floating-heart" type="button" aria-label={`Save ${product.name}`}>
-                <Heart size={18} />
-              </button>
-            </div>
+        {products.map((product) => {
+          const isFavorite = wishlist.includes(product.id);
+          return (
+            <article
+              className="product-card"
+              key={product.id}
+              onClick={(e) => {
+                const target = e.target as HTMLElement;
+                if (target.closest(".quick-add") || target.closest(".floating-heart")) {
+                  return;
+                }
+                onNavigate("product", product.id);
+              }}
+              style={{ cursor: "pointer" }}
+            >
+              <div className="product-image">
+                <img src={product.image} alt={product.name} />
+                <span className="product-badge">{product.badge}</span>
+                <button
+                  className={`floating-heart ${isFavorite ? "is-favorite" : ""}`}
+                  type="button"
+                  onClick={() => onToggleFavorite(product.id)}
+                  aria-label={`Save ${product.name}`}
+                >
+                  <Heart size={18} fill={isFavorite ? "currentColor" : "none"} />
+                </button>
+              </div>
             <div className="product-info">
               <div>
                 <small>{product.category}</small>
@@ -73,7 +88,7 @@ export function ProductGrid({ onAddToCart, onNavigate, t }: ProductGridProps) {
               </div>
             </div>
           </article>
-        ))}
+        ); })}
       </div>
     </section>
   );

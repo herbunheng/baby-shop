@@ -27,6 +27,15 @@ function App() {
   const [locale, setLocale] = useState<Locale>("en");
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod["id"]>("khqr");
+  const [wishlist, setWishlist] = useState<number[]>([1, 3]);
+
+  const toggleFavorite = (productId: number) => {
+    setWishlist((current) =>
+      current.includes(productId)
+        ? current.filter((id) => id !== productId)
+        : [...current, productId],
+    );
+  };
 
   // Hash router synchronization
   useEffect(() => {
@@ -111,6 +120,7 @@ function App() {
     <div className="app" lang={locale}>
       <Header
         cartCount={cartCount}
+        wishlistCount={wishlist.length}
         locale={locale}
         onCartClick={() => navigateTo("checkout")}
         onNavigate={navigateTo}
@@ -122,7 +132,13 @@ function App() {
           <>
             <Hero t={t} onNavigate={navigateTo} />
             <CategoryRail t={t} onNavigate={navigateTo} />
-            <ProductGrid onAddToCart={addToCart} onNavigate={navigateTo} t={t} />
+            <ProductGrid
+              onAddToCart={addToCart}
+              onNavigate={navigateTo}
+              wishlist={wishlist}
+              onToggleFavorite={toggleFavorite}
+              t={t}
+            />
             <PromoBand t={t} onNavigate={navigateTo} />
             <TrustPanel t={t} />
           </>
@@ -133,6 +149,8 @@ function App() {
             onSelectCategory={setSelectedCategory}
             onAddToCart={addToCart}
             onNavigate={navigateTo}
+            wishlist={wishlist}
+            onToggleFavorite={toggleFavorite}
             t={t}
           />
         )}
@@ -141,6 +159,8 @@ function App() {
             productId={route.productId || 1}
             onAddToCart={addToCart}
             onNavigate={navigateTo}
+            wishlist={wishlist}
+            onToggleFavorite={toggleFavorite}
             t={t}
           />
         )}

@@ -8,6 +8,8 @@ type ShopViewProps = {
   onSelectCategory: (category: string | null) => void;
   onAddToCart: (product: Product) => void;
   onNavigate: (page: "home" | "shop" | "product" | "checkout", param?: any) => void;
+  wishlist: number[];
+  onToggleFavorite: (productId: number) => void;
   t: (key: TranslationKey) => string;
 };
 
@@ -18,6 +20,8 @@ export function ShopView({
   onSelectCategory,
   onAddToCart,
   onNavigate,
+  wishlist,
+  onToggleFavorite,
   t,
 }: ShopViewProps) {
   const [selectedBrands, setSelectedBrands] = useState<string>("All");
@@ -43,9 +47,15 @@ export function ShopView({
   const filteredProducts = useMemo(() => {
     return products
       .filter((product) => {
-        // Category filter
-        if (selectedCategory && product.category.toLowerCase() !== selectedCategory.toLowerCase()) {
-          return false;
+        // Category / Favorites filter
+        if (selectedCategory) {
+          if (selectedCategory === "favorites") {
+            if (!wishlist.includes(product.id)) {
+              return false;
+            }
+          } else if (product.category.toLowerCase() !== selectedCategory.toLowerCase()) {
+            return false;
+          }
         }
         // Price filter
         if (product.price > maxPrice) {
@@ -93,6 +103,14 @@ export function ShopView({
         {/* Categories Checkboxes */}
         <div className="filter-group">
           <h3>Categories</h3>
+          <label className="filter-checkbox-label" style={{ marginBottom: "0.5rem" }}>
+            <input
+              type="checkbox"
+              checked={selectedCategory === "favorites"}
+              onChange={() => onSelectCategory(selectedCategory === "favorites" ? null : "favorites")}
+            />
+            <span style={{ color: "var(--secondary)", fontWeight: "bold" }}>Favorites Only ({wishlist.length})</span>
+          </label>
           {["Clothes", "Diapers", "Feeding", "Toys", "Bath"].map((cat) => {
             const isChecked = selectedCategory?.toLowerCase() === cat.toLowerCase();
             return (
@@ -186,27 +204,34 @@ export function ShopView({
           </div>
         ) : (
           <div className="product-grid">
-            {filteredProducts.map((product) => (
-              <article
-                className="product-card"
-                key={product.id}
-                onClick={(e) => {
-                  // If clicking on quick add or heart button, do not navigate to details page
-                  const target = e.target as HTMLElement;
-                  if (target.closest(".quick-add") || target.closest(".floating-heart")) {
-                    return;
-                  }
-                  onNavigate("product", product.id);
-                }}
-                style={{ cursor: "pointer" }}
-              >
-                <div className="product-image">
-                  <img src={product.image} alt={product.name} />
-                  <span className="product-badge">{product.badge}</span>
-                  <button className="floating-heart" type="button" aria-label={`Save ${product.name}`}>
-                    <Heart size={18} />
-                  </button>
-                </div>
+            {filteredProducts.map((product) => {
+              const isFavorite = wishlist.includes(product.id);
+              return (
+                <article
+                  className="product-card"
+                  key={product.id}
+                  onClick={(e) => {
+                    // If clicking on quick add or heart button, do not navigate to details page
+                    const target = e.target as HTMLElement;
+                    if (target.closest(".quick-add") || target.closest(".floating-heart")) {
+                      return;
+                    }
+                    onNavigate("product", product.id);
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  <div className="product-image">
+                    <img src={product.image} alt={product.name} />
+                    <span className="product-badge">{product.badge}</span>
+                    <button
+                      className={`floating-heart ${isFavorite ? "is-favorite" : ""}`}
+                      type="button"
+                      onClick={() => onToggleFavorite(product.id)}
+                      aria-label={`Save ${product.name}`}
+                    >
+                      <Heart size={18} fill={isFavorite ? "currentColor" : "none"} />
+                    </button>
+                  </div>
                 <div className="product-info">
                   <div>
                     <small>{product.category}</small>
@@ -234,7 +259,7 @@ export function ShopView({
                   </div>
                 </div>
               </article>
-            ))}
+            ); })}
           </div>
         )}
       </section>

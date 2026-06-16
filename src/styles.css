@@ -533,6 +533,25 @@ main {
   right: 0.75rem;
   top: 0.75rem;
   width: 38px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.floating-heart:hover {
+  transform: scale(1.1);
+  color: var(--secondary);
+}
+
+.floating-heart.is-favorite {
+  color: var(--secondary);
+  background: white;
+  box-shadow: 0 4px 10px rgba(122, 84, 97, 0.2);
+  animation: heartPulse 0.3s linear;
+}
+
+@keyframes heartPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
 }
 
 .product-info {

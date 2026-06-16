@@ -7,6 +7,8 @@ type ProductDetailViewProps = {
   productId: number;
   onAddToCart: (product: Product) => void;
   onNavigate: (page: "home" | "shop" | "product" | "checkout", param?: any) => void;
+  wishlist: number[];
+  onToggleFavorite: (productId: number) => void;
   t: (key: TranslationKey) => string;
 };
 
@@ -29,6 +31,8 @@ export function ProductDetailView({
   productId,
   onAddToCart,
   onNavigate,
+  wishlist,
+  onToggleFavorite,
   t,
 }: ProductDetailViewProps) {
   const product = useMemo(() => {
@@ -162,6 +166,21 @@ export function ProductDetailView({
               <Plus size={18} />
               Add to Bag
             </button>
+            <button
+              className={`floating-heart ${wishlist.includes(product.id) ? "is-favorite" : ""}`}
+              type="button"
+              onClick={() => onToggleFavorite(product.id)}
+              style={{
+                position: "static",
+                minHeight: "48px",
+                width: "48px",
+                borderRadius: "var(--radius-lg)",
+                border: "1px solid var(--line)"
+              }}
+              aria-label="Add to wishlist"
+            >
+              <Heart size={20} fill={wishlist.includes(product.id) ? "currentColor" : "none"} />
+            </button>
           </div>
         </div>
       </div>
@@ -247,20 +266,30 @@ export function ProductDetailView({
       <section className="section-block">
         <h2 className="related-title">You may also like</h2>
         <div className="product-grid">
-          {relatedProducts.map((p) => (
-            <article
-              className="product-card"
-              key={p.id}
-              onClick={() => onNavigate("product", p.id)}
-              style={{ cursor: "pointer" }}
-            >
-              <div className="product-image">
-                <img src={p.image} alt={p.name} />
-                <span className="product-badge">{p.badge}</span>
-                <button className="floating-heart" type="button" aria-label={`Save ${p.name}`}>
-                  <Heart size={18} />
-                </button>
-              </div>
+          {relatedProducts.map((p) => {
+            const isFavorite = wishlist.includes(p.id);
+            return (
+              <article
+                className="product-card"
+                key={p.id}
+                onClick={() => onNavigate("product", p.id)}
+                style={{ cursor: "pointer" }}
+              >
+                <div className="product-image">
+                  <img src={p.image} alt={p.name} />
+                  <span className="product-badge">{p.badge}</span>
+                  <button
+                    className={`floating-heart ${isFavorite ? "is-favorite" : ""}`}
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onToggleFavorite(p.id);
+                    }}
+                    aria-label={`Save ${p.name}`}
+                  >
+                    <Heart size={18} fill={isFavorite ? "currentColor" : "none"} />
+                  </button>
+                </div>
               <div className="product-info">
                 <div>
                   <small>{p.category}</small>
@@ -290,8 +319,7 @@ export function ProductDetailView({
                   </button>
                 </div>
               </div>
-            </article>
-          ))}
+            ); })}
         </div>
       </section>
     </div>

@@ -7,10 +7,11 @@ import {
   UserRound,
 } from "lucide-react";
 import type { Locale, TranslationKey } from "../i18n/translations";
-import { navItems, wishlistCount } from "../data/mockData";
+import { navItems } from "../data/mockData";
 
 type HeaderProps = {
   cartCount: number;
+  wishlistCount: number;
   locale: Locale;
   onCartClick: () => void;
   onNavigate: (page: "home" | "shop" | "product" | "checkout", param?: any) => void;
@@ -18,7 +19,7 @@ type HeaderProps = {
   t: (key: TranslationKey) => string;
 };
 
-export function Header({ cartCount, locale, onCartClick, onNavigate, setLocale, t }: HeaderProps) {
+export function Header({ cartCount, wishlistCount, locale, onCartClick, onNavigate, setLocale, t }: HeaderProps) {
   const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       const query = e.currentTarget.value.trim();
@@ -88,8 +89,12 @@ export function Header({ cartCount, locale, onCartClick, onNavigate, setLocale, 
             <Languages size={18} />
             <span>{locale === "en" ? "ខ្មែរ" : "EN"}</span>
           </button>
-          <button className="icon-button" aria-label="Wishlist">
-            <Heart size={21} />
+          <button
+            className="icon-button"
+            aria-label="Wishlist"
+            onClick={() => onNavigate("shop", "favorites")}
+          >
+            <Heart size={21} fill={wishlistCount > 0 ? "var(--secondary)" : "none"} color={wishlistCount > 0 ? "var(--secondary)" : "currentColor"} />
             <span>{wishlistCount}</span>
           </button>
           <button className="icon-button" aria-label="Cart" onClick={onCartClick}>
