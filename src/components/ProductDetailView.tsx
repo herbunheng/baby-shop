@@ -319,7 +319,8 @@ export function ProductDetailView({
                   </button>
                 </div>
               </div>
-            ); })}
+            </article>
+          ); })}
         </div>
       </section>
     </div>
