@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Shop All | Lullaby Boutique</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "surface-container": "#efeded",
+                "tertiary-fixed": "#e2e2e2",
+                "surface-variant": "#e4e2e2",
+                "surface-container-lowest": "#ffffff",
+                "on-secondary-container": "#7a5462",
+                "tertiary": "#5d5f5f",
+                "on-primary-container": "#34536f",
+                "on-surface": "#1b1c1c",
+                "surface-dim": "#dbd9d9",
+                "on-surface-variant": "#42474d",
+                "surface-bright": "#fbf9f8",
+                "on-error": "#ffffff",
+                "inverse-on-surface": "#f2f0f0",
+                "outline": "#73777e",
+                "primary-fixed-dim": "#aacaea",
+                "surface-container-high": "#eae8e7",
+                "background": "#fbf9f8",
+                "inverse-primary": "#aacaea",
+                "tertiary-fixed-dim": "#c6c6c7",
+                "secondary-fixed": "#ffd9e4",
+                "on-primary-fixed": "#001d32",
+                "secondary-container": "#ffcddd",
+                "on-tertiary-fixed": "#1a1c1c",
+                "on-tertiary-container": "#4f5151",
+                "on-secondary": "#ffffff",
+                "inverse-surface": "#303030",
+                "primary-fixed": "#cde5ff",
+                "on-secondary-fixed-variant": "#603c4a",
+                "on-background": "#1b1c1c",
+                "secondary": "#7a5461",
+                "surface-container-low": "#f5f3f3",
+                "on-primary": "#ffffff",
+                "on-secondary-fixed": "#2f121e",
+                "primary": "#42617d",
+                "tertiary-container": "#c3c4c4",
+                "on-tertiary": "#ffffff",
+                "outline-variant": "#c2c7ce",
+                "on-tertiary-fixed-variant": "#454747",
+                "secondary-fixed-dim": "#eabac9",
+                "error": "#ba1a1a",
+                "primary-container": "#a7c7e7",
+                "surface-container-highest": "#e4e2e2",
+                "on-error-container": "#93000a",
+                "surface-tint": "#42617d",
+                "error-container": "#ffdad6",
+                "surface": "#fbf9f8",
+                "on-primary-fixed-variant": "#294964"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "base": "8px",
+                "section-padding-mobile": "40px",
+                "section-padding-desktop": "80px",
+                "gutter": "24px",
+                "container-max": "1280px"
+            },
+            "fontFamily": {
+                "display-lg": ["Quicksand"],
+                "label-sm": ["Plus Jakarta Sans"],
+                "headline-lg-mobile": ["Quicksand"],
+                "headline-md": ["Quicksand"],
+                "label-md": ["Plus Jakarta Sans"],
+                "headline-lg": ["Quicksand"],
+                "body-lg": ["Plus Jakarta Sans"],
+                "body-md": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "700"}],
+                "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .product-card-hover:hover .quick-view-btn {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            background: #42617d;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex flex-col items-center px-gutter py-4 bg-surface dark:bg-surface-dim bg-surface-container-low dark:bg-surface-container-highest shadow-[0_10px_30px_rgba(167,199,231,0.1)]">
+<div class="max-w-container-max w-full flex flex-col items-center">
+<div class="w-full flex justify-between items-center mb-4">
+<div class="flex-1 hidden md:flex gap-6">
+<nav class="flex gap-6">
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed transition-colors duration-300" href="#">Clothes</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed transition-colors duration-300" href="#">Diapers</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed transition-colors duration-300" href="#">Formula</a>
+</nav>
+</div>
+<h1 class="font-display-lg text-headline-lg text-primary dark:text-primary-fixed tracking-tight scale-95 active:scale-90 transition-transform cursor-pointer">Lullaby Boutique</h1>
+<div class="flex-1 flex justify-end items-center gap-4">
+<div class="relative hidden lg:block">
+<input class="bg-surface-container-low px-4 py-1.5 rounded-full text-label-md focus:ring-2 focus:ring-primary outline-none transition-all w-48 border-none" placeholder="Search..." type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-1.5 text-primary">search</span>
+</div>
+<div class="flex items-center gap-3">
+<button class="material-symbols-outlined p-2 text-primary hover:bg-primary-container rounded-full transition-all">favorite</button>
+<button class="material-symbols-outlined p-2 text-primary hover:bg-primary-container rounded-full transition-all">shopping_cart</button>
+<button class="material-symbols-outlined p-2 text-primary hover:bg-primary-container rounded-full transition-all">person</button>
+</div>
+</div>
+</div>
+<nav class="hidden md:flex gap-8 border-t border-outline-variant/30 pt-4 w-full justify-center">
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed transition-colors duration-300" href="#">Toys</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed transition-colors duration-300" href="#">Strollers</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed transition-colors duration-300" href="#">Skincare</a>
+<a class="font-label-md text-label-md text-primary dark:text-primary-fixed font-bold border-b-2 border-primary dark:border-primary-fixed pb-1" href="#">Shop All</a>
+</nav>
+</div>
+</header>
+<main class="pt-[140px] pb-section-padding-desktop px-gutter max-w-container-max mx-auto min-h-screen">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 mb-8 text-on-surface-variant/70 font-label-md">
+<a class="hover:text-primary transition-colors" href="#">Home</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-on-surface font-semibold">Shop</span>
+</nav>
+<div class="flex flex-col md:flex-row gap-gutter">
+<!-- Sidebar Filters -->
+<aside class="w-full md:w-64 flex-shrink-0 space-y-10">
+<!-- Categories -->
+<div>
+<h3 class="font-headline-md text-headline-md mb-6 border-b border-outline-variant pb-2">Category</h3>
+<div class="space-y-3">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-5 h-5 rounded border-outline text-primary focus:ring-primary-container" type="checkbox"/>
+<span class="font-body-md text-on-surface group-hover:text-primary transition-colors">Organic Basics</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="w-5 h-5 rounded border-outline text-primary focus:ring-primary-container" type="checkbox"/>
+<span class="font-body-md text-on-surface group-hover:text-primary transition-colors">Sleep &amp; Swaddles</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-5 h-5 rounded border-outline text-primary focus:ring-primary-container" type="checkbox"/>
+<span class="font-body-md text-on-surface group-hover:text-primary transition-colors">Nursery Decor</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-5 h-5 rounded border-outline text-primary focus:ring-primary-container" type="checkbox"/>
+<span class="font-body-md text-on-surface group-hover:text-primary transition-colors">Wooden Toys</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-5 h-5 rounded border-outline text-primary focus:ring-primary-container" type="checkbox"/>
+<span class="font-body-md text-on-surface group-hover:text-primary transition-colors">Eco Diapering</span>
+</label>
+</div>
+</div>
+<!-- Price Slider -->
+<div>
+<h3 class="font-headline-md text-headline-md mb-6 border-b border-outline-variant pb-2">Price Range</h3>
+<div class="px-2">
+<input class="w-full h-1 bg-primary-container rounded-lg appearance-none cursor-pointer" max="500" min="0" type="range" value="250"/>
+<div class="flex justify-between mt-4 font-label-md text-on-surface-variant">
+<span>$0</span>
+<span class="font-bold text-primary">$500+</span>
+</div>
+</div>
+</div>
+<!-- Brand -->
+<div>
+<h3 class="font-headline-md text-headline-md mb-6 border-b border-outline-variant pb-2">Brand</h3>
+<div class="flex flex-wrap gap-2">
+<button class="px-4 py-2 bg-primary text-white rounded-full font-label-md text-label-md shadow-sm">EcoBaby</button>
+<button class="px-4 py-2 bg-surface-container-low text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-primary-container transition-all">Loom &amp; Leaf</button>
+<button class="px-4 py-2 bg-surface-container-low text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-primary-container transition-all">PureSleep</button>
+<button class="px-4 py-2 bg-surface-container-low text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-primary-container transition-all">Nordic Wood</button>
+</div>
+</div>
+</aside>
+<!-- Product Grid Area -->
+<section class="flex-1">
+<div class="flex justify-between items-center mb-8">
+<p class="font-body-md text-on-surface-variant">Showing <span class="font-bold text-on-surface">12</span> of 48 products</p>
+<div class="flex items-center gap-2">
+<span class="font-label-md">Sort by:</span>
+<select class="bg-transparent border-none font-label-md focus:ring-0 cursor-pointer">
+<option>Newest Arrivals</option>
+<option>Price: Low to High</option>
+<option>Price: High to Low</option>
+<option>Rating</option>
+</select>
+</div>
+</div>
+<!-- 3-Column Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Product Card 1 -->
+<div class="group relative bg-white rounded-[24px] overflow-hidden shadow-[0_10px_30px_rgba(167,199,231,0.1)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(167,199,231,0.2)] product-card-hover">
+<div class="relative aspect-square overflow-hidden bg-surface-container-low">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="High-resolution commercial product shot of a premium organic cotton baby onesie in a soft sage green color, lying on a clean white linen surface with soft morning sunlight casting gentle shadows. The mood is serene, caring, and high-end boutique style with a focus on textile quality and minimal design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXEd8L5ckV7ZR2CJi8OvNzcIgRhvHWlHSnKY1rEYy6g74NXffEtCIobWOjHmXe_BBcugIaePzYQVQP4PXtSzy5XWKvalkMUU_wMya6fRktMLF0UMQ65W18PAxpojev9iQmOUQOXzQFm_5nWAqz6_PF1yUQcq-ev-gQ0DTjAblpdsEWCNmYfCssg-ENUaJlHnZQJzYd_NVu9cuTn6xQGmse_sGSAbFQGsOWZ1zcCHd931wdn-smJnbDYDaPv3vWN-JbHE8mUALLxfQ"/>
+<span class="absolute top-4 left-4 bg-secondary text-white font-label-md px-3 py-1 rounded-full text-[12px] uppercase tracking-wider">Sale</span>
+<button class="quick-view-btn absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-md px-6 py-2 rounded-full font-label-md text-primary opacity-0 translate-y-4 transition-all duration-300 hover:bg-primary hover:text-white">Quick View</button>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-display-lg text-[18px] text-on-surface leading-snug">Organic Sage Onesie</h4>
+<div class="flex items-center text-primary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm ml-1">4.9</span>
+</div>
+</div>
+<div class="flex items-baseline gap-2 mb-6">
+<span class="font-bold text-headline-md text-on-surface">$32.00</span>
+<span class="text-on-surface-variant line-through text-[14px]">$45.00</span>
+</div>
+<button class="w-full bg-primary hover:bg-primary/90 text-white py-3 rounded-[16px] font-label-md flex items-center justify-center gap-2 transition-all active:scale-95">
+<span class="material-symbols-outlined">add</span>
+                                Add to Cart
+                            </button>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="group relative bg-white rounded-[24px] overflow-hidden shadow-[0_10px_30px_rgba(167,199,231,0.1)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(167,199,231,0.2)] product-card-hover">
+<div class="relative aspect-square overflow-hidden bg-surface-container-low">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Minimalist luxury nursery scene featuring a handmade wooden rattle and teething ring on a textured cream wool blanket. The lighting is soft and airy, creating a sophisticated and calming atmosphere. The high-quality wood grain is visible, emphasizing the premium handcrafted nature of the boutique baby product." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIz_6BBDSDHGVolyT8wmh83KbfPyEmTLsYKtcG357nbwVkG7yYsP53oFlcf-8Mjwt70o9S6AG2-i4iL-UcrZau5LLhfNUojsY03cluSoTZAmn9hFT-SW2N-peV9Z5o26ohTKHQTp_P48DqyLNbscNGhrCUAw7OYutXmd42OlCd62PXOoO5lYli9b5PjuCPYI23FU7P51Fc4gSVAnyr3V9A9pMzBI8HRHtXl2FUNhsQnemhdP9Un4lUElCchQT8tnkBQxLSNsTCcos"/>
+<button class="quick-view-btn absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-md px-6 py-2 rounded-full font-label-md text-primary opacity-0 translate-y-4 transition-all duration-300 hover:bg-primary hover:text-white">Quick View</button>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-display-lg text-[18px] text-on-surface leading-snug">Handcrafted Teether</h4>
+<div class="flex items-center text-primary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm ml-1">5.0</span>
+</div>
+</div>
+<div class="mb-6">
+<span class="font-bold text-headline-md text-on-surface">$24.00</span>
+</div>
+<button class="w-full bg-primary hover:bg-primary/90 text-white py-3 rounded-[16px] font-label-md flex items-center justify-center gap-2 transition-all active:scale-95">
+<span class="material-symbols-outlined">add</span>
+                                Add to Cart
+                            </button>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="group relative bg-white rounded-[24px] overflow-hidden shadow-[0_10px_30px_rgba(167,199,231,0.1)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(167,199,231,0.2)] product-card-hover">
+<div class="relative aspect-square overflow-hidden bg-surface-container-low">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Elegant boutique display of a soft quilted baby blanket in a muted dusty rose color, draped over a minimalist white crib. The background is a clean, bright nursery with subtle neutral tones and high-key lighting. The overall mood is luxurious, safe, and modern, reflecting a sophisticated parenting aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_v6AImTTAbxvOq6MeGwB6H32zPpnsjUSZdAjKm-z6nK4VRAfsUhXhVuvqf8fq4taQ91_hyTa6eZxV0t5rKKYKFtaFietJ0i8rYfnOXu2LpqqoHJDtvPHfQD3qsCsG-KPzK2fgli_GKW8yFOhZxNl0qxWDtU4p7TF-J9WAXUgjolzpwBm5_xaDL2-Yh-o0onqYfWjgPnhAHvfymP4lKSFKNMgYV4aVR3d03CKtrXzYsB08Js4aHX7apoUB6PvHmSecOIsO_Y0ro3w"/>
+<span class="absolute top-4 left-4 bg-secondary text-white font-label-md px-3 py-1 rounded-full text-[12px] uppercase tracking-wider">New</span>
+<button class="quick-view-btn absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-md px-6 py-2 rounded-full font-label-md text-primary opacity-0 translate-y-4 transition-all duration-300 hover:bg-primary hover:text-white">Quick View</button>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-display-lg text-[18px] text-on-surface leading-snug">Luxe Quilted Blanket</h4>
+<div class="flex items-center text-primary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm ml-1">4.8</span>
+</div>
+</div>
+<div class="mb-6">
+<span class="font-bold text-headline-md text-on-surface">$85.00</span>
+</div>
+<button class="w-full bg-primary hover:bg-primary/90 text-white py-3 rounded-[16px] font-label-md flex items-center justify-center gap-2 transition-all active:scale-95">
+<span class="material-symbols-outlined">add</span>
+                                Add to Cart
+                            </button>
+</div>
+</div>
+<!-- Additional Grid Items (Placeholder Mock) -->
+<div class="group relative bg-white rounded-[24px] overflow-hidden shadow-[0_10px_30px_rgba(167,199,231,0.1)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(167,199,231,0.2)] product-card-hover">
+<div class="relative aspect-square overflow-hidden bg-surface-container-low">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="High-end organic baby skincare set featuring minimalist glass bottles with elegant labels, arranged on a smooth marble surface. The lighting is soft and diffused, creating a clean, medical-grade yet luxurious feel. The color palette is composed of soft whites, cool grays, and subtle primary accents, evoking trust and purity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCD02Bn8R2R1o8UDhBsDpTs5fyNkEvj3dKAPahvP7WhnnYBvkkPEh4BEJdnB8JK2-YjghehUZ7H_-F7faNmITdebcwptSkiqpgNHkXMUQocpsWHDRZvX6YmEDT_Zzc78sxmb_mI5prT_cIta-5YRXU2xttrOLHjjZItmSF7TFy6F6fDM7_7Lykkhuie67UICbTMr5hDfTece0olhuidf5_S94l-G5AcI7QyITdoYDHxXm6J58B3NSFbEAsOjPOgnp1XUFrzPiao88I"/>
+<button class="quick-view-btn absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-md px-6 py-2 rounded-full font-label-md text-primary opacity-0 translate-y-4 transition-all duration-300 hover:bg-primary hover:text-white">Quick View</button>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-display-lg text-[18px] text-on-surface leading-snug">Gentle Care Bundle</h4>
+<div class="flex items-center text-primary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm ml-1">4.7</span>
+</div>
+</div>
+<div class="mb-6">
+<span class="font-bold text-headline-md text-on-surface">$55.00</span>
+</div>
+<button class="w-full bg-primary hover:bg-primary/90 text-white py-3 rounded-[16px] font-label-md flex items-center justify-center gap-2 transition-all active:scale-95">
+<span class="material-symbols-outlined">add</span>
+                                Add to Cart
+                            </button>
+</div>
+</div>
+<div class="group relative bg-white rounded-[24px] overflow-hidden shadow-[0_10px_30px_rgba(167,199,231,0.1)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(167,199,231,0.2)] product-card-hover">
+<div class="relative aspect-square overflow-hidden bg-surface-container-low">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Professional studio shot of a modern, ergonomic baby stroller in a sophisticated slate gray color. The stroller is set against a minimal light gray backdrop with crisp studio lighting that highlights the premium metal finish and high-quality fabric textures. The mood is modern, functional, and exceptionally premium." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA69goeOfmEUrnwITmq3gSmpzLj8ZjYCeNscAHRDeOazX0ODaKtXCzOF3QxYfQCC9gGgqRS-Z0OSAMpDrDU4NwGzFxEf8aGMSogZkWpQCD8iv5EPEBbbI8tdScRiMrnjKUH8o9z8K7WfWuHMaZTfrCjyYY-w2rC8fcY7735rxcm9Nr8drA6UzmdK0Skeg-hD9yY_J72f3WG0wAu-Oh9sXS4zO2pqp8MX2xpq4W7_5RlmGlli3ZTc8g2MHm5leLEfUpIdPZDPffLlSM"/>
+<button class="quick-view-btn absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-md px-6 py-2 rounded-full font-label-md text-primary opacity-0 translate-y-4 transition-all duration-300 hover:bg-primary hover:text-white">Quick View</button>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-display-lg text-[18px] text-on-surface leading-snug">Urban Lite Stroller</h4>
+<div class="flex items-center text-primary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm ml-1">5.0</span>
+</div>
+</div>
+<div class="mb-6">
+<span class="font-bold text-headline-md text-on-surface">$420.00</span>
+</div>
+<button class="w-full bg-primary hover:bg-primary/90 text-white py-3 rounded-[16px] font-label-md flex items-center justify-center gap-2 transition-all active:scale-95">
+<span class="material-symbols-outlined">add</span>
+                                Add to Cart
+                            </button>
+</div>
+</div>
+<div class="group relative bg-white rounded-[24px] overflow-hidden shadow-[0_10px_30px_rgba(167,199,231,0.1)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(167,199,231,0.2)] product-card-hover">
+<div class="relative aspect-square overflow-hidden bg-surface-container-low">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Charming and minimal educational wooden toy stacker set in soft pastel colors, arranged artistically on a light wood tabletop. The bright, natural light creates a playful and healthy atmosphere. The image focuses on the tactile nature of the toys and the safe, non-toxic matte finish, representing a high-end boutique brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuButDWlKXsNEhJRciJF22cnx9T2l0ugt7dhvkCd9T9RJTDa5wJ_kBv-28xUzjEcvB_Q6rnlAj3le6_3_545Ik7wEKbSNj3NudHDxf34-oZSG2Ey0SAaqx3QAhK2xRneV2DloyRJ-SAOYepVYlJPvXoP9EoTFGugNg_EiEH97bmtpqCDUjX7v6YmED2BcsmbcF-Mt_q6MYda8BY7Mn4btJAfXhpzVa2Rq6CVpbY4gxnqtLB6vyCRr5DZNbwbYkPPwfFK3Iizn1zyTtY"/>
+<button class="quick-view-btn absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-md px-6 py-2 rounded-full font-label-md text-primary opacity-0 translate-y-4 transition-all duration-300 hover:bg-primary hover:text-white">Quick View</button>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-display-lg text-[18px] text-on-surface leading-snug">Pastel Wood Stacker</h4>
+<div class="flex items-center text-primary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm ml-1">4.9</span>
+</div>
+</div>
+<div class="mb-6">
+<span class="font-bold text-headline-md text-on-surface">$28.00</span>
+</div>
+<button class="w-full bg-primary hover:bg-primary/90 text-white py-3 rounded-[16px] font-label-md flex items-center justify-center gap-2 transition-all active:scale-95">
+<span class="material-symbols-outlined">add</span>
+                                Add to Cart
+                            </button>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<nav class="mt-16 flex justify-center items-center gap-4">
+<button class="p-2 rounded-full bg-surface-container-low text-primary hover:bg-primary-container transition-all flex items-center disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-full bg-primary text-white font-label-md">1</button>
+<button class="w-10 h-10 rounded-full bg-surface-container-low text-on-surface-variant font-label-md hover:bg-primary-container hover:text-primary transition-all">2</button>
+<button class="w-10 h-10 rounded-full bg-surface-container-low text-on-surface-variant font-label-md hover:bg-primary-container hover:text-primary transition-all">3</button>
+<span class="w-10 h-10 flex items-center justify-center">...</span>
+<button class="w-10 h-10 rounded-full bg-surface-container-low text-on-surface-variant font-label-md hover:bg-primary-container hover:text-primary transition-all">8</button>
+</div>
+<button class="p-2 rounded-full bg-surface-container-low text-primary hover:bg-primary-container transition-all flex items-center">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</nav>
+</section>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-section-padding-desktop px-gutter flex flex-col md:flex-row justify-between gap-gutter bg-surface-container-lowest dark:bg-surface-container-high">
+<div class="flex-1 space-y-6">
+<h2 class="font-display-lg text-headline-md text-secondary dark:text-secondary-fixed">Lullaby Boutique</h2>
+<p class="font-body-md text-on-surface dark:text-on-surface-variant max-w-sm">© 2024 Lullaby Boutique. Premium Essentials for Modern Parents. Creating a world of comfort for your little ones.</p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center hover:bg-secondary hover:text-white transition-all text-secondary" href="#">
+<span class="material-symbols-outlined">public</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center hover:bg-secondary hover:text-white transition-all text-secondary" href="#">
+<span class="material-symbols-outlined">mail</span>
+</a>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-10 flex-[2]">
+<div class="space-y-4">
+<h4 class="font-label-md text-primary dark:text-primary-fixed uppercase tracking-widest">Support</h4>
+<ul class="space-y-2">
+<li><a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:underline hover:text-primary dark:hover:text-primary-fixed transition-all duration-200" href="#">Contact Us</a></li>
+<li><a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:underline hover:text-primary dark:hover:text-primary-fixed transition-all duration-200" href="#">Shipping Policy</a></li>
+<li><a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:underline hover:text-primary dark:hover:text-primary-fixed transition-all duration-200" href="#">Returns</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h4 class="font-label-md text-primary dark:text-primary-fixed uppercase tracking-widest">Company</h4>
+<ul class="space-y-2">
+<li><a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:underline hover:text-primary dark:hover:text-primary-fixed transition-all duration-200" href="#">Our Story</a></li>
+<li><a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:underline hover:text-primary dark:hover:text-primary-fixed transition-all duration-200" href="#">Privacy</a></li>
+<li><a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:underline hover:text-primary dark:hover:text-primary-fixed transition-all duration-200" href="#">Newsletter Signup</a></li>
+</ul>
+</div>
+<div class="col-span-2 sm:col-span-1 space-y-4">
+<h4 class="font-label-md text-primary dark:text-primary-fixed uppercase tracking-widest">Join the Club</h4>
+<div class="flex gap-2">
+<input class="flex-1 bg-white border-none rounded-[16px] px-4 py-2 font-label-sm outline-none focus:ring-2 focus:ring-primary shadow-sm" placeholder="Email address" type="email"/>
+<button class="bg-primary text-white p-2 rounded-[16px] hover:bg-primary/90 transition-all">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</footer>
+<script>
+        // Simple micro-interaction for adding to cart
+        document.querySelectorAll('button').forEach(button => {
+            if (button.innerText.includes('Add to Cart')) {
+                button.addEventListener('click', function() {
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<span class="material-symbols-outlined">check</span> Added';
+                    this.classList.add('bg-secondary');
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                        this.classList.remove('bg-secondary');
+                    }, 2000);
+                });
+            }
+        });
+    </script>
+</body></html>
