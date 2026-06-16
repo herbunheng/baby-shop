@@ -8,11 +8,13 @@ import { PromoBand } from "./components/PromoBand";
 import { TrustPanel } from "./components/TrustPanel";
 import { ShopView } from "./components/ShopView";
 import { ProductDetailView } from "./components/ProductDetailView";
+import { AdminLoginView } from "./components/AdminLoginView";
+import { AdminDashboardView } from "./components/AdminDashboardView";
 import { products, type PaymentMethod, type Product } from "./data/mockData";
 import { type Locale, type TranslationKey, translations } from "./i18n/translations";
 
 type Route = {
-  page: "home" | "shop" | "product" | "checkout";
+  page: "home" | "shop" | "product" | "checkout" | "admin" | "admin-login";
   productId?: number;
 };
 
@@ -20,10 +22,32 @@ function App() {
   const [route, setRoute] = useState<Route>({ page: "home" });
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  const [cartItems, setCartItems] = useState<CartItem[]>([
-    { ...products[0], quantity: 1 },
-    { ...products[1], quantity: 1 },
-  ]);
+  // Load products list from LocalStorage or fall back to mock data
+  const [productsList, setProductsList] = useState<Product[]>(() => {
+    const saved = localStorage.getItem("baby_shop_products");
+    return saved ? JSON.parse(saved) : products;
+  });
+
+  // Load orders list from LocalStorage
+  const [orders, setOrders] = useState<any[]>(() => {
+    const saved = localStorage.getItem("baby_shop_orders");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  // Admin login status
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState<boolean>(() => {
+    return sessionStorage.getItem("is_admin_logged_in") === "true";
+  });
+
+  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+    // Start with some default items if it's the first visit
+    const p1 = productsList[0] || products[0];
+    const p2 = productsList[1] || products[1];
+    return [
+      { ...p1, quantity: 1 },
+      { ...p2, quantity: 1 },
+    ];
+  });
   const [locale, setLocale] = useState<Locale>("en");
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod["id"]>("khqr");
@@ -48,6 +72,15 @@ function App() {
         setRoute({ page: "product", productId: isNaN(id) ? undefined : id });
       } else if (hash === "#/checkout") {
         setRoute({ page: "checkout" });
+      } else if (hash === "#/admin") {
+        const loggedIn = sessionStorage.getItem("is_admin_logged_in") === "true";
+        if (!loggedIn) {
+          window.location.hash = "#/admin-login";
+        } else {
+          setRoute({ page: "admin" });
+        }
+      } else if (hash === "#/admin-login") {
+        setRoute({ page: "admin-login" });
       } else {
         setRoute({ page: "home" });
       }
@@ -73,6 +106,10 @@ function App() {
       window.location.hash = `#/product/${param}`;
     } else if (page === "checkout") {
       window.location.hash = "#/checkout";
+    } else if (page === "admin") {
+      window.location.hash = "#/admin";
+    } else if (page === "admin-login") {
+      window.location.hash = "#/admin-login";
     }
   };
 
@@ -80,6 +117,7 @@ function App() {
     () => (key: TranslationKey) => translations[locale][key],
     [locale],
   );
+
   const subtotal = useMemo(
     () => cartItems.reduce((total, item) => total + item.price * item.quantity, 0),
     [cartItems],
@@ -112,8 +150,44 @@ function App() {
   };
 
   const clearOrder = () => {
+    setCartItems([]);
     setOrderPlaced(false);
     navigateTo("home");
+  };
+
+  // Admin CRUD functions
+  const handleAddProduct = (newProd: Omit<Product, "id">) => {
+    const nextId = productsList.length > 0 ? Math.max(...productsList.map((p) => p.id)) + 1 : 1;
+    const prodWithId: Product = {
+      ...newProd,
+      id: nextId,
+    };
+    const updated = [...productsList, prodWithId];
+    setProductsList(updated);
+    localStorage.setItem("baby_shop_products", JSON.stringify(updated));
+  };
+
+  const handleUpdateProduct = (updatedProd: Product) => {
+    const updated = productsList.map((p) => (p.id === updatedProd.id ? updatedProd : p));
+    setProductsList(updated);
+    localStorage.setItem("baby_shop_products", JSON.stringify(updated));
+  };
+
+  const handleDeleteProduct = (productId: number) => {
+    const updated = productsList.filter((p) => p.id !== productId);
+    setProductsList(updated);
+    localStorage.setItem("baby_shop_products", JSON.stringify(updated));
+  };
+
+  const handleLoginSuccess = () => {
+    setIsAdminLoggedIn(true);
+    sessionStorage.setItem("is_admin_logged_in", "true");
+  };
+
+  const handleLogout = () => {
+    setIsAdminLoggedIn(false);
+    sessionStorage.removeItem("is_admin_logged_in");
+    window.location.hash = "#/";
   };
 
   return (
@@ -133,6 +207,7 @@ function App() {
             <Hero t={t} onNavigate={navigateTo} />
             <CategoryRail t={t} onNavigate={navigateTo} />
             <ProductGrid
+              products={productsList}
               onAddToCart={addToCart}
               onNavigate={navigateTo}
               wishlist={wishlist}
@@ -145,6 +220,7 @@ function App() {
         )}
         {route.page === "shop" && (
           <ShopView
+            products={productsList}
             selectedCategory={selectedCategory}
             onSelectCategory={setSelectedCategory}
             onAddToCart={addToCart}
@@ -156,6 +232,7 @@ function App() {
         )}
         {route.page === "product" && (
           <ProductDetailView
+            products={productsList}
             productId={route.productId || 1}
             onAddToCart={addToCart}
             onNavigate={navigateTo}
@@ -169,7 +246,25 @@ function App() {
             cartItems={cartItems}
             discount={discount}
             onClearOrder={clearOrder}
-            onPlaceOrder={() => setOrderPlaced(true)}
+            onPlaceOrder={(details) => {
+              const orderNum = "BS-2026-" + Math.floor(1000 + Math.random() * 9000);
+              const newOrder = {
+                orderNumber: orderNum,
+                name: details.name,
+                phone: details.phone,
+                address: details.address,
+                city: details.city,
+                note: details.note,
+                paymentMethod: paymentMethod,
+                total: orderTotal,
+                status: "Confirmed",
+                createdAt: new Date().toISOString(),
+              };
+              const updatedOrders = [newOrder, ...orders];
+              setOrders(updatedOrders);
+              localStorage.setItem("baby_shop_orders", JSON.stringify(updatedOrders));
+              setOrderPlaced(true);
+            }}
             onQuantityChange={updateQuantity}
             onRemove={(productId) =>
               setCartItems((currentItems) => currentItems.filter((item) => item.id !== productId))
@@ -181,6 +276,23 @@ function App() {
             shipping={shipping}
             subtotal={subtotal}
             t={t}
+          />
+        )}
+        {route.page === "admin-login" && (
+          <AdminLoginView
+            onLoginSuccess={handleLoginSuccess}
+            onNavigate={navigateTo}
+          />
+        )}
+        {route.page === "admin" && (
+          <AdminDashboardView
+            products={productsList}
+            orders={orders}
+            onAddProduct={handleAddProduct}
+            onUpdateProduct={handleUpdateProduct}
+            onDeleteProduct={handleDeleteProduct}
+            onLogout={handleLogout}
+            onNavigate={navigateTo}
           />
         )}
       </main>

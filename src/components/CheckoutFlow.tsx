@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   CheckCircle2,
   LockKeyhole,
@@ -21,7 +22,13 @@ type CheckoutFlowProps = {
   cartItems: CartItem[];
   discount: number;
   onClearOrder: () => void;
-  onPlaceOrder: () => void;
+  onPlaceOrder: (orderDetails: {
+    name: string;
+    phone: string;
+    address: string;
+    city: string;
+    note: string;
+  }) => void;
   onQuantityChange: (productId: number, quantity: number) => void;
   onRemove: (productId: number) => void;
   orderPlaced: boolean;
@@ -50,7 +57,14 @@ export function CheckoutFlow({
   subtotal,
   t,
 }: CheckoutFlowProps) {
+  const [fullName, setFullName] = useState("Sokha Chan");
+  const [phone, setPhone] = useState("+855 12 345 678");
+  const [address, setAddress] = useState("House 24, Street 371, Boeung Tumpun");
+  const [city, setCity] = useState("Phnom Penh");
+  const [note, setNote] = useState("");
+
   const orderNumber = "BS-2026-1048";
+
 
   return (
     <section className="checkout-section" id="checkout">
@@ -148,26 +162,44 @@ export function CheckoutFlow({
               <div className="form-grid">
                 <label>
                   {t("fullName")}
-                  <input defaultValue="Sokha Chan" placeholder={t("namePlaceholder")} />
+                  <input
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    placeholder={t("namePlaceholder")}
+                  />
                 </label>
                 <label>
                   {t("phone")}
-                  <input defaultValue="+855 12 345 678" placeholder={t("phonePlaceholder")} />
+                  <input
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder={t("phonePlaceholder")}
+                  />
                 </label>
                 <label className="wide-field">
                   {t("address")}
                   <input
-                    defaultValue="House 24, Street 371, Boeung Tumpun"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
                     placeholder={t("addressPlaceholder")}
                   />
                 </label>
                 <label>
                   {t("city")}
-                  <input defaultValue="Phnom Penh" placeholder={t("cityPlaceholder")} />
+                  <input
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    placeholder={t("cityPlaceholder")}
+                  />
                 </label>
                 <label className="wide-field">
                   {t("note")}
-                  <textarea placeholder={t("notePlaceholder")} rows={3} />
+                  <textarea
+                    value={note}
+                    onChange={(e) => setNote(e.target.value)}
+                    placeholder={t("notePlaceholder")}
+                    rows={3}
+                  />
                 </label>
               </div>
             </article>
@@ -215,7 +247,7 @@ export function CheckoutFlow({
               className="primary-button checkout-submit"
               type="button"
               disabled={cartItems.length === 0}
-              onClick={onPlaceOrder}
+              onClick={() => onPlaceOrder({ name: fullName, phone, address, city, note })}
             >
               {t("placeOrder")}
               <CheckCircle2 size={19} />

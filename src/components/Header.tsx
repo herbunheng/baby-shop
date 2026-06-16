@@ -14,7 +14,7 @@ type HeaderProps = {
   wishlistCount: number;
   locale: Locale;
   onCartClick: () => void;
-  onNavigate: (page: "home" | "shop" | "product" | "checkout", param?: any) => void;
+  onNavigate: (page: "home" | "shop" | "product" | "checkout" | "admin" | "admin-login", param?: any) => void;
   setLocale: (locale: Locale) => void;
   t: (key: TranslationKey) => string;
 };
@@ -78,6 +78,15 @@ export function Header({ cartCount, wishlistCount, locale, onCartClick, onNaviga
           >
             Shop All
           </a>
+          <a
+            href={`#/admin`}
+            onClick={(e) => {
+              e.preventDefault();
+              onNavigate("admin");
+            }}
+          >
+            Admin
+          </a>
         </nav>
 
         <div className="nav-actions">
@@ -101,7 +110,11 @@ export function Header({ cartCount, wishlistCount, locale, onCartClick, onNaviga
             <ShoppingCart size={21} />
             <span>{cartCount}</span>
           </button>
-          <button className="icon-button desktop-only" aria-label="Account">
+          <button
+            className="icon-button desktop-only"
+            aria-label="Account"
+            onClick={() => onNavigate("admin")}
+          >
             <UserRound size={21} />
           </button>
         </div>

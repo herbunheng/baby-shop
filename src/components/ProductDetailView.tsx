@@ -1,12 +1,13 @@
 import { useState, useMemo } from "react";
 import { Star, Plus, Minus, Heart, ArrowLeft, ShieldCheck, HelpCircle } from "lucide-react";
-import { products, type Product } from "../data/mockData";
+import type { Product } from "../data/mockData";
 import type { TranslationKey } from "../i18n/translations";
 
 type ProductDetailViewProps = {
+  products: Product[];
   productId: number;
   onAddToCart: (product: Product) => void;
-  onNavigate: (page: "home" | "shop" | "product" | "checkout", param?: any) => void;
+  onNavigate: (page: "home" | "shop" | "product" | "checkout" | "admin" | "admin-login", param?: any) => void;
   wishlist: number[];
   onToggleFavorite: (productId: number) => void;
   t: (key: TranslationKey) => string;
@@ -28,6 +29,7 @@ const COLORS = [
 ];
 
 export function ProductDetailView({
+  products,
   productId,
   onAddToCart,
   onNavigate,
@@ -37,7 +39,7 @@ export function ProductDetailView({
 }: ProductDetailViewProps) {
   const product = useMemo(() => {
     return products.find((p) => p.id === productId) || products[0];
-  }, [productId]);
+  }, [products, productId]);
 
   const [activeImg, setActiveImg] = useState<string>(product.image || GALLERY_IMAGES[0]);
   const [selectedColor, setSelectedColor] = useState<string>(product.color || "Cloud White");
@@ -47,7 +49,7 @@ export function ProductDetailView({
   // Get related products (excluding current one)
   const relatedProducts = useMemo(() => {
     return products.filter((p) => p.id !== product.id);
-  }, [product.id]);
+  }, [products, product.id]);
 
   const handleAddToCart = () => {
     // Call add to cart multiple times if quantity > 1

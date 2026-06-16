@@ -1,16 +1,18 @@
 import { Heart, Plus, Star } from "lucide-react";
-import { products, type Product } from "../data/mockData";
+import type { Product } from "../data/mockData";
 import type { TranslationKey } from "../i18n/translations";
 
 type ProductGridProps = {
+  products: Product[];
   onAddToCart: (product: Product) => void;
-  onNavigate: (page: "home" | "shop" | "product" | "checkout", param?: any) => void;
+  onNavigate: (page: "home" | "shop" | "product" | "checkout" | "admin" | "admin-login", param?: any) => void;
   wishlist: number[];
   onToggleFavorite: (productId: number) => void;
   t: (key: TranslationKey) => string;
 };
 
 export function ProductGrid({
+  products,
   onAddToCart,
   onNavigate,
   wishlist,

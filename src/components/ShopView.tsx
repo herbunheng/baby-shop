@@ -1,13 +1,14 @@
 import { useState, useMemo } from "react";
 import { Star, Plus, Heart } from "lucide-react";
-import { products, type Product } from "../data/mockData";
+import type { Product } from "../data/mockData";
 import type { TranslationKey } from "../i18n/translations";
 
 type ShopViewProps = {
+  products: Product[];
   selectedCategory: string | null;
   onSelectCategory: (category: string | null) => void;
   onAddToCart: (product: Product) => void;
-  onNavigate: (page: "home" | "shop" | "product" | "checkout", param?: any) => void;
+  onNavigate: (page: "home" | "shop" | "product" | "checkout" | "admin" | "admin-login", param?: any) => void;
   wishlist: number[];
   onToggleFavorite: (productId: number) => void;
   t: (key: TranslationKey) => string;
@@ -16,6 +17,7 @@ type ShopViewProps = {
 const BRANDS = ["All", "EcoBaby", "Loom & Leaf", "PureSleep", "Nordic Wood"];
 
 export function ShopView({
+  products,
   selectedCategory,
   onSelectCategory,
   onAddToCart,
@@ -81,7 +83,7 @@ export function ShopView({
         if (sortBy === "Rating") return b.rating - a.rating;
         return a.id - b.id; // Newest / ID order
       });
-  }, [selectedCategory, maxPrice, selectedBrands, sortBy, searchQuery]);
+  }, [products, selectedCategory, maxPrice, selectedBrands, sortBy, searchQuery, wishlist]);
 
   return (
     <div className="shop-layout">
